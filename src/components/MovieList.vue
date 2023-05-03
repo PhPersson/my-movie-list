@@ -24,11 +24,16 @@
         <ul id="movie-list">
           <li v-for="(movie, index) in movies" :key="index">
             {{ movie.title }} - 
-            <button id="removeBtn" class="btn btn-danger">Ta bort</button>
+            <button id="removeBtn" class="btn btn-danger" @click="deleteMovie(index)">Ta bort</button>
           </li>
         </ul>
 
-
+        <button  id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
+        Alfabetisk ordning
+      </button>
+      <button id="order-grade" class="btn btn-primary" @click="sortByRating">
+        Betygsordning
+      </button>
 
   </div>
 
@@ -60,6 +65,9 @@ export default {
         this.title = '';
         this.rating = '';
 
+      },
+      deleteMovie(index){
+        this.movies.splice(index, 1);
       },
     }
 
