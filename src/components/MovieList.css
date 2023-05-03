@@ -13,7 +13,7 @@
 }
 
 
-#movie-list > li >.star {
+#movie-list > li > .star {
   color: gold;
 }
 

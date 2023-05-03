@@ -73,10 +73,12 @@ export default {
         this.movies.push({ title: this.title, rating: this.rating });
         this.title = '';
         this.rating = '';
+        localStorage.setItem('movies', JSON.stringify(this.movies));
 
       },
       deleteMovie(index){
         this.movies.splice(index, 1);
+        localStorage.setItem('movies', JSON.stringify(this.movies));
       },
       sortAlphabetically(){
         this.movies.sort((a, b) => b.rating - a.rating);
