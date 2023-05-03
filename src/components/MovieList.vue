@@ -19,6 +19,16 @@
         <br>
           <button type="button" class="btn btn-success">Lägg till film</button>
         </form>
+
+
+        <ul id="movie-list">
+          <li >
+            <button id="removeBtn" class="btn btn-danger">Ta bort</button>
+          </li>
+        </ul>
+
+
+
   </div>
 
 
