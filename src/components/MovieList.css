@@ -1,0 +1,4 @@
+#movie-list > li > #removeBtn{
+    float: right;
+    margin-left: 5px;
+  }

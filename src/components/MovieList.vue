@@ -44,6 +44,4 @@ export default {
 
 </script>
 
-<style>
-
-</style>
+<style src="./MovieList.css"> </style>
