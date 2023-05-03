@@ -31,11 +31,11 @@
         </ul>
 
         <button v-if="movies.length > 1" id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
-        Alfabetisk ordning A-Z
-      </button>
-      <button v-if="movies.length > 1" id="order-grade" class="btn btn-primary" @click="sortByRating">
-        Betygsordning
-      </button>
+          Alfabetisk ordning A-Z
+        </button>
+        <button v-if="movies.length > 1" id="order-grade" class="btn btn-primary" @click="sortByRating">
+          Betygsordning
+        </button>
 
   </div>
 
@@ -51,6 +51,13 @@ export default {
           title: '',
           rating: '',
         }
+    },
+
+    mounted: function() {
+      var storedMovies = localStorage.getItem('movies');
+      if (storedMovies) {
+        this.movies = JSON.parse(storedMovies);
+      }
     },
 
     methods: {
