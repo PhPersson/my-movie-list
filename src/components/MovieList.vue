@@ -20,7 +20,8 @@
           <button type="button" class="btn btn-success"  @click="addMovie">Lägg till film</button>
         </form>
 
-
+        <hr>
+        <h2>Dina filmer</h2>
         <ul id="movie-list">
           <li v-for="(movie, index) in movies" :key="index">
             {{ movie.title }} - 
