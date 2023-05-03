@@ -1,4 +1,22 @@
+#movie-list > li {
+  list-style: none;
+  background-color: #eee;
+  margin: 5px;
+  padding: 20px;
+  align-items: center;
+  box-shadow: 0 0 5px #999;
+}
+
 #movie-list > li > #removeBtn{
-    float: right;
-    margin-left: 5px;
-  }
+  float: right;
+  margin-left: 5px;
+}
+
+
+#movie-list > li >.star {
+  color: gold;
+}
+
+.delete-movie {
+  align-items: center;
+}

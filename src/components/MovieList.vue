@@ -25,12 +25,13 @@
         <ul id="movie-list">
           <li v-for="(movie, index) in movies" :key="index">
             {{ movie.title }} - 
+             <span v-for="i in movie.rating" :key="i" class="star">&#9733;</span>
             <button id="removeBtn" class="btn btn-danger" @click="deleteMovie(index)">Ta bort</button>
           </li>
         </ul>
 
         <button v-if="movies.length > 1" id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
-        Alfabetisk ordning
+        Alfabetisk ordning A-Z
       </button>
       <button v-if="movies.length > 1" id="order-grade" class="btn btn-primary" @click="sortByRating">
         Betygsordning
@@ -62,6 +63,13 @@ export default {
           alert("Fyll i betyg!");
           return;
         }
+        // Kontrollera om filmen redan finns i listan
+        const titleExists = this.movies.some(movie => movie.title.toLowerCase() === this.title.toLowerCase());
+        if (titleExists) {
+          alert("Filmen finns redan i listan!");
+          return;
+        }
+
         this.movies.push({ title: this.title, rating: this.rating });
         this.title = '';
         this.rating = '';
@@ -70,6 +78,14 @@ export default {
       deleteMovie(index){
         this.movies.splice(index, 1);
       },
+      sortAlphabetically(){
+        this.movies.sort((a, b) => b.rating - a.rating);
+      },
+      sortByRating(){
+
+      }
+
+      
     }
 
 }
