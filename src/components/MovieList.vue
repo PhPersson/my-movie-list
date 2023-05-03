@@ -29,10 +29,10 @@
           </li>
         </ul>
 
-        <button  id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
+        <button v-if="movies.length > 1" id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
         Alfabetisk ordning
       </button>
-      <button id="order-grade" class="btn btn-primary" @click="sortByRating">
+      <button v-if="movies.length > 1" id="order-grade" class="btn btn-primary" @click="sortByRating">
         Betygsordning
       </button>
 
