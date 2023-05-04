@@ -88,11 +88,11 @@ export default {
         localStorage.setItem('movies', JSON.stringify(this.movies));
       },
       sortAlphabetically(){
-        this.movies.sort((a, b) => b.rating - a.rating);
+        this.movies.sort((a, b) => a.title.localeCompare(b.title));
       },
       sortByRating(){
-
-      }
+        this.movies.sort((a, b) => b.rating - a.rating);
+      },
 
       
     }
