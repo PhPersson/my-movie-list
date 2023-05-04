@@ -20,8 +20,8 @@
           <button type="button" class="btn btn-success"  @click="addMovie">Lägg till film</button>
         </form>
 
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div v-if="showAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="showAlert=false"></button>
           {{errorMessage}}
         </div>   
 
@@ -55,6 +55,7 @@ export default {
           movies: [],
           title: '',
           rating: '',
+          showAlert: false,
           errorMessage: '',
         }
     },
@@ -69,17 +70,20 @@ export default {
     methods: {
       addMovie() {
         if (!this.title) {
-          alert("Fyll i titel!");
+          this.errorMessage = 'Fyll i titel!';
+          this.showAlert = true;
           return;
         }
         if (!this.rating) {
-          alert("Fyll i betyg!");
+          this.errorMessage = 'Fyll i betyg!';
+          this.showAlert = true;
           return;
         }
         // Kontrollera om filmen redan finns i listan
         const titleExists = this.movies.some(movie => movie.title.toLowerCase() === this.title.toLowerCase());
         if (titleExists) {
-          alert("Filmen finns redan i listan!");
+          this.errorMessage = 'Filmen finns redan i listan!';
+          this.showAlert = true;
           return;
         }
 
