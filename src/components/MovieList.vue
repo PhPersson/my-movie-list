@@ -69,38 +69,14 @@ export default {
 
     methods: {
       addMovie() {
-        if (!this.title) {
-          this.errorMessage = 'Fyll i titel!';
-          this.showAlert = true;
-          setTimeout(() => {
-              this.showAlert = false;
-            }, 3000);
-          return;
-        }
-        if (!this.rating) {
-          this.errorMessage = 'Fyll i betyg!';
-          this.showAlert = true;
-          setTimeout(() => {
-              this.showAlert = false;
-            }, 3000);
-          return;
-        }
-        // Kontrollera om filmen redan finns i listan
-        const titleExists = this.movies.some(movie => movie.title.toLowerCase() === this.title.toLowerCase());
-        if (titleExists) {
-          this.errorMessage = 'Filmen finns redan i listan!';
-          this.showAlert = true;
-          setTimeout(() => {
-              this.showAlert = false;
-            }, 3000);
-          return;
-        }
-
+        if (this.validateUserInput()) {
+          if(this.checkIfMovieExists()) {
         this.movies.push({ title: this.title, rating: this.rating });
         this.title = '';
         this.rating = '';
         localStorage.setItem('movies', JSON.stringify(this.movies));
-
+        }
+      }
       },
       deleteMovie(index){
         this.movies.splice(index, 1);
@@ -111,6 +87,38 @@ export default {
       },
       sortByRating(){
         this.movies.sort((a, b) => b.rating - a.rating);
+      },
+      validateUserInput(){
+        if (!this.title) {
+          this.errorMessage = 'Fyll i titel!';
+          this.showAlert = true;
+          setTimeout(() => {
+              this.showAlert = false;
+            }, 3000);
+          return false;
+        }
+        if (!this.rating) {
+          this.errorMessage = 'Fyll i betyg!';
+          this.showAlert = true;
+          setTimeout(() => {
+              this.showAlert = false;
+            }, 3000);
+          return false;
+        }
+        return true;
+      },
+      checkIfMovieExists(){
+        // Kontrollera om filmen redan finns i listan
+        const titleExists = this.movies.some(movie => movie.title.toLowerCase() === this.title.toLowerCase());
+        if (titleExists) {
+          this.errorMessage = 'Filmen finns redan i listan!';
+          this.showAlert = true;
+          setTimeout(() => {
+              this.showAlert = false;
+            }, 3000);
+          return false;
+        }
+        return true;
       },
 
       
