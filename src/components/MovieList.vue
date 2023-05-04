@@ -35,6 +35,9 @@
           </li>
         </ul>
 
+      <!-- Knapparna för att sortera filmerna syns bara om där finns några filmer att sortera.
+        v-if kontrollerar om listan med filmer är större eller lika med 1 för att då visa knapparna
+      -->
         <button v-if="movies.length > 1" id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
           Alfabetisk ordning A-Z
         </button>
@@ -59,7 +62,8 @@ export default {
           errorMessage: '',
         }
     },
-
+      // Funktion för att ladda in alla tillgängliga filer från localstorage när vue har laddat klart
+      // vue.js mounted == när sidan har laddat och är färdig
     mounted: function() {
       var storedMovies = localStorage.getItem('movies');
       if (storedMovies) {
@@ -88,6 +92,8 @@ export default {
       sortByRating(){
         this.movies.sort((a, b) => b.rating - a.rating);
       },
+      // Metoden kontrollerar först så att användaren har skrivit in information i alla fällt.
+      // Om värdena som anvöndaren har matat in är ogilltiga ges ett felmeddelande till användaren.
       validateUserInput(){
         if (!this.title) {
           this.errorMessage = 'Fyll i titel!';
