@@ -20,6 +20,11 @@
           <button type="button" class="btn btn-success"  @click="addMovie">Lägg till film</button>
         </form>
 
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          {{errorMessage}}
+        </div>   
+
         <hr>
         <h2 v-if="movies.length > 0"> Dina filmer</h2>
         <ul id="movie-list">
@@ -50,6 +55,7 @@ export default {
           movies: [],
           title: '',
           rating: '',
+          errorMessage: '',
         }
     },
 
