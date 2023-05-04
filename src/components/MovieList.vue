@@ -72,11 +72,17 @@ export default {
         if (!this.title) {
           this.errorMessage = 'Fyll i titel!';
           this.showAlert = true;
+          setTimeout(() => {
+              this.showAlert = false;
+            }, 3000);
           return;
         }
         if (!this.rating) {
           this.errorMessage = 'Fyll i betyg!';
           this.showAlert = true;
+          setTimeout(() => {
+              this.showAlert = false;
+            }, 3000);
           return;
         }
         // Kontrollera om filmen redan finns i listan
@@ -84,6 +90,9 @@ export default {
         if (titleExists) {
           this.errorMessage = 'Filmen finns redan i listan!';
           this.showAlert = true;
+          setTimeout(() => {
+              this.showAlert = false;
+            }, 3000);
           return;
         }
 
