@@ -19,20 +19,23 @@
         <br>
           <button type="button" class="btn btn-success"  @click="addMovie">Lägg till film</button>
         </form>
-
-        <div v-if="showAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="showAlert=false"></button>
-          {{errorMessage}}
-        </div>   
+        <transition name = "alert-fade">
+          <div v-if="showAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="showAlert=false"></button>
+            {{errorMessage}}
+          </div>
+      </transition>
 
         <hr>
         <h2 v-if="movies.length > 0"> Dina filmer</h2>
         <ul id="movie-list">
-          <li v-for="(movie, index) in movies" :key="index">
-            {{ movie.title }} - 
-             <span v-for="i in movie.rating" :key="i" class="star">&#9733;</span>
-            <button id="removeBtn" class="btn btn-danger" @click="deleteMovie(index)">Ta bort</button>
-          </li>
+          <transition-group name="fade">
+            <li v-for="(movie, index) in movies" :key="index">
+              {{ movie.title }} - 
+              <span v-for="i in movie.rating" :key="i" class="star">&#9733;</span>
+              <button id="removeBtn" class="btn btn-danger" @click="deleteMovie(index)">Ta bort</button>
+            </li>
+          </transition-group>
         </ul>
 
       <!-- Knapparna för att sortera filmerna syns bara om där finns några filmer att sortera.
