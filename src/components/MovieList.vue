@@ -75,28 +75,33 @@ export default {
     },
 
     methods: {
-      addMovie() {
+
+      addMovie() { // Metod för att först validera om användaren har matat in titel och betyg
         if (this.validateUserInput()) {
-          if(this.checkIfMovieExists()) {
-        this.movies.push({ title: this.title, rating: this.rating });
-        this.title = '';
-        this.rating = '';
-        localStorage.setItem('movies', JSON.stringify(this.movies));
+          if(this.checkIfMovieExists()) { //Kontrollerar även om filmen redan med i listan bland tillagda filmer
+            this.movies.push({ title: this.title, rating: this.rating });
+            this.title = '';
+            this.rating = '';
+            localStorage.setItem('movies', JSON.stringify(this.movies));
+          }
         }
-      }
       },
+      // Metod för att ta bort filmen från listan med filmer
+      // Tar även bort filmen från localstorage genom att skriva över listan med en ny lista
       deleteMovie(index){
         this.movies.splice(index, 1);
         localStorage.setItem('movies', JSON.stringify(this.movies));
       },
       sortAlphabetically(){
+        // Sorterar filmerna baserat på deras titlar
         this.movies.sort((a, b) => a.title.localeCompare(b.title));
       },
       sortByRating(){
+        // Sorterar filmerna baserat på deras betyg
         this.movies.sort((a, b) => b.rating - a.rating);
       },
       // Metoden kontrollerar först så att användaren har skrivit in information i alla fällt.
-      // Om värdena som anvöndaren har matat in är ogilltiga ges ett felmeddelande till användaren.
+      // Om värdena som användaren har matat in är ogilltiga ges ett felmeddelande till användaren.
       validateUserInput(){
         if (!this.title) {
           this.errorMessage = 'Fyll i titel!';
@@ -129,10 +134,7 @@ export default {
         }
         return true;
       },
-
-      
     }
-
 }
 
 </script>
