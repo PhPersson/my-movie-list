@@ -139,4 +139,45 @@ export default {
 
 </script>
 
-<style src="./MovieList.css"> </style>
+<style>
+#movie-list > li {
+  list-style: none;
+  background-color: #eee;
+  margin: 5px;
+  padding: 20px;
+  align-items: center;
+  box-shadow: 0 0 5px #999;
+}
+
+#movie-list > li > #removeBtn{
+  float: right;
+  margin-left: 5px;
+}
+
+
+#movie-list > li > .star {
+  color: gold;
+}
+
+.delete-movie {
+  align-items: center;
+}
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 1s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.alert-fade-enter-active, .alert-fade-leave-active {
+  transition: all 1s ease;
+}
+.alert-fade-enter-from, .alert-fade-leave-to {
+  opacity: 0;
+}
+
+
+
+</style>
