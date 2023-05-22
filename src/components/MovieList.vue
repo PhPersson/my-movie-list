@@ -1,183 +1,75 @@
 <template>
-  <div class="container mt-4" id="Movie-app">
-      <h1>Min filmlista</h1>
-        <hr>
-        <h2>Lägg till en film</h2>
-        <form>
-          <div class="form-group">
-            <label for="title">Titel</label>
-            <input type="input" v-model="title" class="form-control" id="title" placeholder="Titeln på filmen här...">
-          </div>
-          <label for="rating">Betyg</label>
-            <select class="form-control" id="rating" v-model.number="rating" >
-              <option>1</option >
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-        <br>
-          <button type="button" class="btn btn-success"  @click="addMovie">Lägg till film</button>
-        </form>
-        <transition name = "alert-fade">
-          <div v-if="showAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="showAlert=false"></button>
-            {{errorMessage}}
-          </div>
-      </transition>
+  <div>
+    <h2 v-if="movies.length > 0">Dina filmer</h2>
+    <ul id="movie-list">
+      <transition-group name="fade">
+        <li v-for="(movie, index) in movies" :key="index">
+          {{ movie.title }} -
+          <span v-for="i in movie.rating" :key="i" class="star">&#9733;</span>
+          <button id="removeBtn" class="btn btn-danger" @click="deleteMovie(index)">Ta bort</button>
+        </li>
+      </transition-group>
+    </ul>
 
-        <hr>
-        <h2 v-if="movies.length > 0"> Dina filmer</h2>
-        <ul id="movie-list">
-          <transition-group name="fade">
-            <li v-for="(movie, index) in movies" :key="index">
-              {{ movie.title }} - 
-              <span v-for="i in movie.rating" :key="i" class="star">&#9733;</span>
-              <button id="removeBtn" class="btn btn-danger" @click="deleteMovie(index)">Ta bort</button>
-            </li>
-          </transition-group>
-        </ul>
-
-      <!-- Knapparna för att sortera filmerna syns bara om där finns några filmer att sortera.
-        v-if kontrollerar om listan med filmer är större eller lika med 1 för att då visa knapparna
-      -->
-        <button v-if="movies.length > 1" id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
+      <button v-if="movies.length > 1" id="order-alphabetic" class="btn btn-primary" @click="sortAlphabetically">
           Alfabetisk ordning A-Z
-        </button>
-        <button v-if="movies.length > 1" id="order-grade" class="btn btn-primary" @click="sortByRating">
+      </button>
+      <button v-if="movies.length > 1" id="order-grade" class="btn btn-primary" @click="sortByRating">
           Betygsordning
-        </button>
-
+      </button>
   </div>
-
-
 </template>
-
+  
 <script>
-export default {
-    data() {
-        return {
-          // Först måste vi ha en lista [] där alla filmer skall sparas i. Varje film i listan behöver också ha en titel och ett betyg. 
-          movies: [],
-          title: '',
-          rating: '',
-          showAlert: false,
-          errorMessage: '',
-        }
-    },
-      // Funktion för att ladda in alla tillgängliga filer från localstorage när vue har laddat klart
-      // vue.js mounted == när sidan har laddat och är färdig
-    mounted: function() {
-      var storedMovies = localStorage.getItem('movies');
-      if (storedMovies) {
-        this.movies = JSON.parse(storedMovies);
+  export default {
+    props: {
+      movies: {
+        type: Array,
+        required: true
       }
     },
-
     methods: {
-
-      addMovie() { // Metod för att först validera om användaren har matat in titel och betyg
-        if (this.validateUserInput()) {
-          if(this.checkIfMovieExists()) { //Kontrollerar även om filmen redan med i listan bland tillagda filmer
-            this.movies.push({ title: this.title, rating: this.rating });
-            this.title = '';
-            this.rating = '';
-            localStorage.setItem('movies', JSON.stringify(this.movies));
-          }
-        }
+      deleteMovie(index) {
+        this.$emit('delete-movie', index);
       },
-      // Metod för att ta bort filmen från listan med filmer
-      // Tar även bort filmen från localstorage genom att skriva över listan med en ny lista
-      deleteMovie(index){
-        this.movies.splice(index, 1);
-        localStorage.setItem('movies', JSON.stringify(this.movies));
+      sortAlphabetically() {
+        this.$emit('sort-alphabetically');
       },
-      sortAlphabetically(){
-        // Sorterar filmerna baserat på deras titlar
-        this.movies.sort((a, b) => a.title.localeCompare(b.title));
-      },
-      sortByRating(){
-        // Sorterar filmerna baserat på deras betyg
-        this.movies.sort((a, b) => b.rating - a.rating);
-      },
-      // Metoden kontrollerar först så att användaren har skrivit in information i alla fällt.
-      // Om värdena som användaren har matat in är ogilltiga ges ett felmeddelande till användaren.
-      validateUserInput(){
-        if (!this.title) {
-          this.errorMessage = 'Fyll i titel!';
-          this.showAlert = true;
-          setTimeout(() => {
-              this.showAlert = false;
-            }, 3000);
-          return false;
-        }
-        if (!this.rating) {
-          this.errorMessage = 'Fyll i betyg!';
-          this.showAlert = true;
-          setTimeout(() => {
-              this.showAlert = false;
-            }, 3000);
-          return false;
-        }
-        return true;
-      },
-      checkIfMovieExists(){
-        // Kontrollera om filmen redan finns i listan
-        const titleExists = this.movies.some(movie => movie.title.toLowerCase() === this.title.toLowerCase());
-        if (titleExists) {
-          this.errorMessage = 'Filmen finns redan i listan!';
-          this.showAlert = true;
-          setTimeout(() => {
-              this.showAlert = false;
-            }, 3000);
-          return false;
-        }
-        return true;
-      },
+      sortByRating() {
+        this.$emit('sort-by-rating');
+      }
     }
-}
-
+  }
 </script>
 
 <style>
-#movie-list > li {
-  list-style: none;
-  background-color: #eee;
-  margin: 5px;
-  padding: 20px;
-  align-items: center;
-  box-shadow: 0 0 5px #999;
-}
+    #movie-list > li {
+    list-style: none;
+    background-color: #eee;
+    margin: 5px;
+    padding: 20px;
+    align-items: center;
+    box-shadow: 0 0 5px #999;
+    }
 
-#movie-list > li > #removeBtn{
-  float: right;
-  margin-left: 5px;
-}
+    #movie-list > li > #removeBtn{
+    float: right;
+    margin-left: 5px;
+    }
 
+    #movie-list > li > .star {
+    color: gold;
+    }
 
-#movie-list > li > .star {
-  color: gold;
-}
+    .delete-movie {
+    align-items: center;
+    }
 
-.delete-movie {
-  align-items: center;
-}
-
-
-.fade-enter-active, .fade-leave-active {
-  transition: all 1s ease;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
-
-.alert-fade-enter-active, .alert-fade-leave-active {
-  transition: all 1s ease;
-}
-.alert-fade-enter-from, .alert-fade-leave-to {
-  opacity: 0;
-}
-
-
+    .fade-enter-active, .fade-leave-active {
+    transition: all 1s ease;
+    }
+    .fade-enter-from, .fade-leave-to {
+    opacity: 0;
+    }
 
 </style>

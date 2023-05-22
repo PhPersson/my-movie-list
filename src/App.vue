@@ -1,18 +1,14 @@
 <template>
-  <MovieList/>
+  <MovieApp/>
 </template>
 
 <script>
-import MovieList from './components/MovieList.vue'
+import MovieApp from './components/MovieApp.vue'
 
 export default {
   name: 'App',
   components: {
-    MovieList
+    MovieApp
   }
 }
 </script>
-
-<style>
-
-</style>
