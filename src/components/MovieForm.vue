@@ -19,17 +19,18 @@
     </form>
 
     <transition name="alert-fade">
-      <div v-if="showAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="showAlert=false"></button>
-        {{errorMessage}}
-      </div>
+      <alert-comp :errorMessage="this.errorMessage" v-if="showAlert"/>
     </transition>
   </div>
 </template>
   
 <script>
+  import AlertComp from './AlertComp.vue';
   export default {
 
+    components: {
+      AlertComp,
+    },
     data() {
       return {
         title: '',
@@ -71,4 +72,11 @@
     }
   }
 </script>
-  
+<style>
+.alert-fade-enter-active, .alert-fade-leave-active {
+  transition: all 1s ease;
+}
+.alert-fade-enter-from, .alert-fade-leave-to {
+  opacity: 0;
+}
+</style>
