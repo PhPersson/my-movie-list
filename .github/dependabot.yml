@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "npm" 
+    directory: "/"
+    schedule:
+      interval: "weekly"  
+    commit-message:
+      prefix: "deps"        
+    open-pull-requests-limit: 10
+    auto-merge:              
+      merge-method: "squash" 
+    pull-request-branch-name: "dependabot/npm" 
